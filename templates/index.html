@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+    {% for item in all_info %}
+        {{all_info}}
+        <h1>{{item[0].username}}&larr;{{item[0].email}}</h1>
+        <ul>
+        {%for book in item[1] %}
+            <li>
+                {{book.bookname}}--{{book.cost}}
+            </li>
+        {% endfor%}
+        </ul>
+
+    {% endfor%}
+    </div>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+</body>
+</html>
