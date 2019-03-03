@@ -1,9 +1,10 @@
 from flask import Flask, flash, render_template
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
-app.config["SQLALCHEMY_DATABASE_URI"]= r'sqlite:///C:\Users\mezeng\Desktop\Flask Study\demo\test.db'
+app.config["SQLALCHEMY_DATABASE_URI"]= r'sqlite:///{cwd}\test.db'.format(cwd=os.path.abspath("."))
 db=SQLAlchemy(app)
 
 class User(db.Model):
@@ -48,9 +49,7 @@ def index():
 @app.route('/users')
 def user():
     all_user=User.query.all()
-    all_books= list(map(lambda x: Book.query.filter(Book.user_id==x.id).all(), all_user))
-    all_info=[(user,all_books[i]) for i, user in enumerate(all_user)]
-    print(all_info)
+    all_info=[(user,user.books) for user in all_user]
     return render_template("index.html",all_info=all_info)
 
 if __name__ == '__main__':
